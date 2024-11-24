@@ -35,6 +35,7 @@ export default function TicketCard({ ticketId }: { ticketId: Id<"tickets"> }) {
     refunded: "Refunded",
     cancelled: "Cancelled",
   };
+  
 
   return (
     <Link
