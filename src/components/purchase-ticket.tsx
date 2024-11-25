@@ -4,7 +4,6 @@ import { Id } from "@convex/_generated/dataModel";
 import { WAITING_LIST_STATUS } from "@convex/constants";
 import { useQuery } from "convex/react";
 import { Ticket } from "lucide-react";
-import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import ReleaseTicket from "./release-ticket";
 import { createStripeCheckoutSession } from "@/actions/create-stripe-checkout-session";
@@ -14,7 +13,6 @@ type PurchaseTicketProps = {
 };
 
 const PurchaseTicket = ({ eventId }: PurchaseTicketProps) => {
-  const router = useRouter();
   const { user } = useUser();
   const queuePosition = useQuery(api.waitingList.getQueuePosition, {
     eventId,
@@ -64,6 +62,7 @@ const PurchaseTicket = ({ eventId }: PurchaseTicketProps) => {
         window.location.href = sessionUrl;
       }
     } catch (error) {
+      console.error("Failed to create checkout session", error);
     } finally {
       setIsLoading(false);
     }

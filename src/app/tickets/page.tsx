@@ -15,7 +15,7 @@ function MyTicketsPage() {
   if (!tickets) return null;
 
   const validTickets = tickets.filter((t) => t.status === "valid");
-  const otherTickets = tickets.filter((t) => t.status !== "valid");
+//   const otherTickets = tickets.filter((t) => t.status !== "valid");
 
   const upcomingTickets = validTickets.filter(
     (t) => t.event && t.event.eventDate > Date.now()

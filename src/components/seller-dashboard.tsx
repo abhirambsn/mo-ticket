@@ -8,7 +8,6 @@ import {
 import { useUser } from "@clerk/nextjs";
 import { api } from "@convex/_generated/api";
 import { useQuery } from "convex/react";
-import { useRouter } from "next/navigation";
 import { Fragment, useEffect, useState } from "react";
 import Spinner from "./spinner";
 import Link from "next/link";
@@ -24,7 +23,6 @@ const SellerDashboard = () => {
   const [accountStatus, setAccountStatus] = useState<AccountStatus | null>(
     null
   );
-  const router = useRouter();
   const { user } = useUser();
   const stripeConnectId = useQuery(api.users.getUsersStripeConnectId, {
     userId: user?.id || "",

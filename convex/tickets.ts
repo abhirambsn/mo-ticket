@@ -1,5 +1,6 @@
-import { query } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
+import { TICKET_STATUS } from "./constants";
 
 export const getUserTicketForEvent = query({
   args: {
@@ -30,5 +31,39 @@ export const getTicketWithDetails = query({
       ...ticket,
       event,
     };
+  },
+});
+
+export const getValidTicketsForEvent = query({
+  args: { eventId: v.id("events") },
+  handler: async (ctx, { eventId }) => {
+    const tickets = await ctx.db
+      .query("tickets")
+      .withIndex("by_event", (q) => q.eq("eventId", eventId))
+      .filter((q) =>
+        q.or(
+          q.eq(q.field("status"), TICKET_STATUS.VALID),
+          q.eq(q.field("status"), TICKET_STATUS.USED)
+        )
+      )
+      .collect();
+
+    return tickets;
+  },
+});
+
+export const updateTicketStatus = mutation({
+  args: {
+    ticketId: v.id("tickets"),
+    status: v.union(
+      v.literal(TICKET_STATUS.VALID),
+      v.literal(TICKET_STATUS.USED),
+      v.literal(TICKET_STATUS.REFUNDED),
+      v.literal(TICKET_STATUS.CANCELLED)
+    ),
+  },
+  handler: async (ctx, { ticketId, status }) => {
+    await ctx.db.patch(ticketId, { status });
+    return ticketId;
   },
 });
