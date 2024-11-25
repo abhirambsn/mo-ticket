@@ -34,7 +34,7 @@ export async function createStripeCheckoutSession({
   });
   const stripeConnectId = await convex.query(
     api.users.getUsersStripeConnectId,
-    { userId }
+    { userId: event?.userId ?? "" }
   );
 
   if (!stripeConnectId) {
