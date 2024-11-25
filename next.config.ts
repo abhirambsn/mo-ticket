@@ -7,6 +7,10 @@ const nextConfig: NextConfig = {
       {
         hostname: "resolute-emu-69.convex.cloud",
         protocol: "https",
+      },
+      {
+        hostname: "brilliant-cassowary-899.convex.cloud",
+        protocol: "https",
       }
     ]
   }
